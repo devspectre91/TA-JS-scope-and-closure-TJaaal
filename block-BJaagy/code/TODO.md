@@ -1,6 +1,17 @@
 1. Create a function by your choice that accepts a callback function.
 
+function myOperation( a,b, opFn){
+    return opFn(a,b);
+}
+
 2. Create a function by you choice that returns a function reference.
+ let opFn = function getFunction(num, cb1, cb2){
+       if(num > 0){
+         return cb1;
+       }
+       else
+       {return cb2};
+ } 
 
 3. Create a higher order function called `map` that takes two inputs:
    - An array of numbers/string/boolean etc
@@ -9,7 +20,13 @@
 Have `map` return a new array filled with values that are the result of the 'callback' function on each element of the input array.
 
 ```js
-// Your code goes here
+function map(arr, cb){
+  let final=[];
+  arr.forEach(element=>{
+   final.push(cb(element));
+  })
+  return final;
+}
 
 // Test Your Code
 function multiplyByTwo(n) {
@@ -20,10 +37,14 @@ multiplyByTwo(1); //-> 2
 multiplyByTwo(2); //-> 4
 ```
 
-4. Create a higher-order function called `forEach` taht takes an array and a callback, and runs the callback on each element of the array. `forEach` does not return anything.
+4. Create a higher-order function called `forEach` that takes an array and a callback, and runs the callback on each element of the array. `forEach` does not return anything.
 
 ```js
-// Your code goes here
+function forEach(arr, cb){
+  for(let i=0; i<arr.length; i++){
+    cb(arr[i]);
+  }
+}
 
 // Test Your Code
 let alphabet = '';
@@ -37,7 +58,15 @@ console.log(alphabet); //prints 'abcd'
 5. Create higher-order function called `filter` takes an array and a callback, and runs the callback on each element of the array if the return value of callback is `truthy` store in new array return the new array.
 
 ```js
-// Test Your Code
+function filter(arr, cb){
+  let final=[];
+  arr.forEach(e=>{
+    if(cb(e)){
+       final.push(e);
+    }
+  });
+  return final;
+}
 
 var numbers = [1, 3, 5, 4, 7, 89, 234, 20];
 let even = filter(numbers, function (n) {
