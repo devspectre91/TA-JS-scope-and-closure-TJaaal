@@ -2,12 +2,18 @@
 
 ```js
 function once(cb) {
-  // your code goes here
+	let flag = true;
+	return () => {
+		if (flag) {
+			flag = false;
+			return cb();
+		}
+	};
 }
 
 // TEST
 function sayHello() {
-  alert('Call me once!');
+	alert("Call me once!");
 }
 let log = once(sayHello);
 log(); // alert message "You can only call me once!"
@@ -17,12 +23,18 @@ log(); // return undefinde (can't be called twice)
 2. Change the above function in such a way that the function accepts two parameter a callback function and parameter for the callback function. When calling the function pass the parameters.
 
 ```js
-function once(cb) {
-  // your code goes here
+function once(cb, param) {
+	let flag = true;
+	return () => {
+		if (flag) {
+			flag = false;
+			return cb(param);
+		}
+	};
 }
 
 // TEST
-let log = once(console.log, 'Hello Console');
+let log = once(console.log, "Hello Console");
 log(); // log message "Hello Console"
 log(); // return undefinde (can't be called twice)
 ```
@@ -35,11 +47,22 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest
 
 ```js
 function once(cb) {
-  // your code goes here
+	let messages = [];
+	let flag = true;
+	for (let i = 1; i < arguments.length; i++) {
+		messages.push(arguments[i]);
+	}
+
+	return () => {
+		if (flag) {
+			flag = false;
+			return cb(messages.join(" "));
+		}
+	};
 }
 
 // TEST
-let log = once(console.log, 'Message one', 'Message Two');
+let log = once(console.log, "Message one", "Message Two");
 log(); // log message "Message One Message Two"
 log(); // return undefinde (can't be called twice)
 ```
@@ -48,14 +71,22 @@ log(); // return undefinde (can't be called twice)
 
 ```js
 function nTimes(cb, times, ...rest) {
-  // your code goes here
+	let messages = rest;
+	let flag = 0;
+
+	return () => {
+		if (flag < times) {
+			flag++;
+			return cb(messages.join(" "));
+		}
+	};
 }
 
 // TEST
 let log = (msg) => console.log(msg);
-let logThreeTimes = nTimes(log, 3, 'Hello Arya');
+let logThreeTimes = nTimes(log, 3, "Hello Arya");
 logThreeTimes(); // log message "Hello Arya" (1)
 logThreeTimes(); // log message "Hello Arya" (2)
 logThreeTimes(); // log message "Hello Arya" (3)
-log(); // return undefinde (can't be called)
+logThreeTimes(); // return undefinde (can't be called)
 ```
